@@ -17,11 +17,38 @@
       <div class="nav-wrapper">
         <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
         <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li><a href="/">Home</a></li>
-                <li><a href="/users">Users</a></li>
-                <li><a href="/static/users">Users JS</a></li>
+            
+          
+
+          <div style="margin-right: 2em; margin-right: 2em;">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              {% if current_user.is_authenticated %}
+              <li><a href="/profile">Profile</a></li>
+              {% endif %}
+  
+              {% if current_user.is_authenticated %}
+              <li><a href="/api/feeds">feed</a></li>
+              {% endif %}
+              
+              {% if current_user.is_authenticated %}
+              <li><a href="/users">Active Users</a></li>
+              {% endif %}
+  
+              {% if not current_user.is_authenticated %}
+              <li><a href="/login">Login</a></li>
+              {% endif %}
+              
+              {% if not current_user.is_authenticated %}
+              <li><a href="/signup">SignUp</a></li>
+              {% endif %}
+  
+              {% if current_user.is_authenticated %}
+              <li><a href="/logout">Logout</a></li>
+              {% endif %}
+  
             </ul>
+          </div>
+
         </div>
       </div>
     </nav>

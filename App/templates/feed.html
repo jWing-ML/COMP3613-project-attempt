@@ -19,6 +19,27 @@
         </thead>
         <tbody>
           {% for feed in feeds %}
+
+            <div class="row">
+              <div class="col s12 m7">
+                <div class="card">
+                  <div class="card-image">
+                    <img src="feed.url">
+                    <span class="card-title">Card Title</span>
+                  </div>
+                  <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information.
+                    I am convenient because I require little markup to use effectively.</p>
+                  </div>
+                  <div class="card-action">
+                    <a href="#">This is a link</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
             <tr>
                 <td>{{feed.id}}</td>
                 <td>{{feed.receiverID}}</td>

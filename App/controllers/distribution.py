@@ -19,7 +19,13 @@ def get_dist_by_id(distID):
     if not distr:
         return []
     dist = [dist.toJSON() for dist in distr]
-    return images
+    return dist
 
+def get_last_distribution():
+    dist = Distribution.query.all()
+    if not dist:return []
+    size=len(dist)
+    dist = Distribution.query.filter_by(id = size)
+    return dist
     
 
