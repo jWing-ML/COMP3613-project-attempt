@@ -5,3 +5,6 @@ from .rating import *
 from .ranking import *
 from .feed import *
 from .distribution import *
+from .login import *
+from .signup import *
+from .logout import *

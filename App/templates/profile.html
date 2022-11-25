@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}LogIn/SignUp{% endblock %}
+{% block page %}Job Search{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+
+
+{% if user %}
+<h1 class="title"> Welcome, {{ user.username }}!</h1>
+
+<div class="row" style="margin-left: 100px;" >
+    <div class="col s12 m7">
+      <div class="card grey darken-4" style="padding-left: 40px; height: 125px">
+        <div class="card-content grey lighten-2 " style=" height: 125px">
+
+            <div>
+                <p><b>Username:</b> {{user.username}}</p>
+                <p><b>Email:</b> {{user.email}}</p>
+                
+            </div>
+            
+            <div  class = "input-field s3" style="margin-left: 500px; text-decoration-color: white;">
+             <button class="light-blue accent-3 btn waves-effect waves-grey" > <a style="color: white;" href="/delete/">Delete </a></button>
+            </div>
+            
+            
+
+        </div>
+      </div>
+    </div>
+</div>
+{% endif%}
+
+{% endblock %}
