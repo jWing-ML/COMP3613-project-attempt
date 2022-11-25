@@ -1,5 +1,6 @@
 from App.models import Distribution
 from App.database import db
+from datetime import date
 
 def create_dist(numprofiles):
     dist = Distribution(numprofiles)
@@ -21,11 +22,11 @@ def get_dist_by_id(distID):
     dist = [dist.toJSON() for dist in distr]
     return dist
 
-def get_last_distribution():
-    dist = Distribution.query.all()
-    if not dist:return []
-    size=len(dist)
-    dist = Distribution.query.filter_by(id = size)
+def get_last_distribution_JSON():
+    dist = Distribution.query.filter_by(timeStamp=date.today())
+    if not dist:
+        return []
+    dist = [dis.toJSON() for dis in dist]
     return dist
     
 

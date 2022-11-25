@@ -29,6 +29,6 @@ def login_post():
     
     login_user(user, remember= remember)
     flash('LogIn Sucessful')
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=current_user)
 
   

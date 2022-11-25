@@ -23,5 +23,9 @@ def get_all_feed():
     feed = [feed.toJSON() for feed in feeds]
     return feed
 
+
+def get_feed_by_receiverID(recvID):
+    feed = Feed.query.filter_by(receiverID=recvID)
+    return feed
     
 
