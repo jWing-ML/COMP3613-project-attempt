@@ -1,20 +1,16 @@
 from App.database import db
-from datetime import date
 
 #Ratings are created by users when they rate other users' profiles
-#Timestamps solve the 'limited number of ratings a day' problem
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    creatorId =  db.Column(db.Integer,  nullable=False)
-    targetId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    score = db.Column(db.Integer, nullable=False)
-    timeStamp = db.Column(db.Date , nullable=False)
+    creatorId =  db.Column(db.Integer,  nullable=False)         #self 
+    targetId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)          #the profile id being rated
+    score = db.Column(db.Integer, nullable=False)                                       #the rating (1-5)                             
     
     def __init__(self, creatorId, targetId, score):
         self.creatorId = creatorId
         self.targetId = targetId
         self.score = score
-        self.timeStamp = date.today()
     
     def toJSON(self):
         return{

@@ -18,6 +18,24 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
+#working
+@user_views.route('/api/create/users', methods=['POST'])
+def create_user_action():
+    data = request.json
+    user = get_user_by_username(data['username'])
+    if user:
+        return jsonify({"message":"Username Already Taken"}) 
+    user = create_user(data['username'], data['password'])
+    return jsonify({"message":"User Created"}) 
+
+#working
+# list users 
+@user_views.route('/api/users', methods=['GET'])
+def get_all_users_action():
+    users = get_all_users_json()
+    return jsonify(users)   
+
+
 
 @user_views.route('/users', methods=['GET'])
 def get_user_page():
@@ -27,20 +45,6 @@ def get_user_page():
 @user_views.route('/static/users')
 def static_user_page():
   return send_from_directory('static', 'static-user.html')
-
-@user_views.route('/api/users', methods=['POST'])
-def create_user_action():
-    data = request.json
-    user = get_user_by_username(data['username'])
-    if user:
-        return jsonify({"message":"Username Already Taken"}) 
-    user = create_user(data['username'], data['password'])
-    return jsonify({"message":"User Created"}) 
-
-@user_views.route('/api/users', methods=['GET'])
-def get_all_users_action():
-    users = get_all_users_json()
-    return jsonify(users)
 
 @user_views.route('/api/users/byid', methods=['GET'])
 def get_user_action():
@@ -74,6 +78,9 @@ def delete_user_action():
         delete_user(data['id'])
         return jsonify({"message":"User Deleted"}) 
     return jsonify({"message":"User Not Found"}) 
+
+
+
 
 @user_views.route('/api/users/identify', methods=['GET'])
 @jwt_required()

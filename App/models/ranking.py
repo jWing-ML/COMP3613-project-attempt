@@ -3,8 +3,8 @@ from App.database import db
 #Rankings are created by users when they rate other users' pictures
 class Ranking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    creatorId =  db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    imageId =  db.Column(db.Integer, db.ForeignKey('image.id'), nullable=False)
+    creatorId =  db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)            #The other user 
+    imageId =  db.Column(db.Integer, db.ForeignKey('image.id'), nullable=False)             #The image being ranked
     score = db.Column(db.Integer, nullable=False)
     
     

@@ -15,31 +15,39 @@ from App.controllers import (
 
 image_views = Blueprint('image_views', __name__, template_folder='../templates')
 
+#working
+#user can post the same pic as many times as they want
+@image_views.route('/api/images', methods=['POST'])
+def create_image_action():
+    data = request.json
+    user = get_user(data['userId'])
+    if user:
+        image = create_image(data['userId'], data['url'])
+        return jsonify({"message":"Image created"}) 
+    return jsonify({"message":"User does not exist"}) 
+
+
+@image_views.route('/api/images/user/<userId>', methods=['GET'])
+def get_images_by_user_action(userId):
+    images = get_images_by_userid_json(userId)
+    return jsonify(images)
+
+
+
+
+
 
 @image_views.route('/images', methods=['GET'])
 def get_image_page():
     images = get_all_images()
     return render_template('images.html', images=images)
 
-@image_views.route('/api/images', methods=['POST'])
-def create_image_action():
-    data = request.json
-    user = get_user(data['userId'])
-    if user:
-        image = create_image(data['userId'])
-        return jsonify({"message":"Image created"}) 
-    return jsonify({"message":"User does not exist"}) 
-
 @image_views.route('/api/images', methods=['GET'])
 def get_images_all_action():
     images = get_all_images_json()
     return jsonify(images)
 
-@image_views.route('/api/images/user', methods=['GET'])
-def get_images_by_user_action():
-    data = request.json
-    images = get_images_by_userid_json(data['userId'])
-    return jsonify(images)
+
 
 @image_views.route('/api/images/id', methods=['GET'])
 def get_images_by_id_action():

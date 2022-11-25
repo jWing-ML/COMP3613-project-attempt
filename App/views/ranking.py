@@ -19,6 +19,7 @@ from App.controllers import (
 
 ranking_views = Blueprint('ranking_views', __name__, template_folder='../templates')
 
+
 @ranking_views.route('/api/rankings', methods=['POST'])
 def create_ranking_action():
     data = request.json
@@ -40,6 +41,17 @@ def get_all_rankings_action():
     rankings = get_all_rankings_json()
     return jsonify(rankings)
 
+@ranking_views.route('/api/rankings/<imgId>', methods=['GET'])
+def get_rankings_by_image_action(imgId):
+    data = request.json
+    if get_image(imgId):
+        ranking = get_rankings_by_image(imgId)
+        if ranking:
+            return jsonify(ranking)
+    return jsonify({"message":"Image Not Found"})
+
+
+
 @ranking_views.route('/api/rankings/byid', methods=['GET'])
 def get_ranking_action():
     data = request.json
@@ -57,14 +69,7 @@ def get_rankings_by_creator_action():
             return jsonify(ranking)
     return jsonify({"message":"User Not Found"})
 
-@ranking_views.route('/api/rankings/byimage', methods=['GET'])
-def get_rankings_by_image_action():
-    data = request.json
-    if get_image(data['imageId']):
-        ranking = get_rankings_by_image(data['imageId'])
-        if ranking:
-            return jsonify(ranking)
-    return jsonify({"message":"Image Not Found"})
+
 
 @ranking_views.route('/api/rankings', methods=['PUT'])
 def update_ranking_action():
