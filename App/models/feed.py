@@ -6,9 +6,9 @@ class Feed(db.Model):
     receiverID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)                                      # owner of the feed    
     distID =  db.Column(db.Integer, db.ForeignKey('distribution.id'), nullable=False)        #which distribution it belongs to
 
-    def __init__(self, senderID, distID):
+    def __init__(self, senderID, receiverID, distID):
         self.senderID = senderID
-        self.receiverID = current_identity.id
+        self.receiverID = receiverID
         self.distID = distID
 
     def toJSON(self):

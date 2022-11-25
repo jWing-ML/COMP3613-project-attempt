@@ -1,4 +1,4 @@
-from App.models import Distribution
+from App.models import Distribution, Feed
 from App.database import db
 from random import randint
 
@@ -6,9 +6,9 @@ def create_feed(receiverID, distID):
 
     dist = Distribution.query.get(distID)
 
-    senderID = randint(0, dist)
+    senderID = randint(1, dist.numprofiles)
     while (senderID == receiverID):                    #ensures the senderID is not the recieverID
-        senderID = randint(0, dist.numprofiles)
+        senderID = randint(1, dist.numprofiles)
 
     feed = Feed(senderID, receiverID, distID)
     db.session.add(feed)
@@ -17,7 +17,7 @@ def create_feed(receiverID, distID):
 
 def get_all_feed():
     feeds = Feed.query.all()
-    if not feed:
+    if not feeds:
         return []
     feed = [feed.toJSON() for feed in feeds]
     return feed

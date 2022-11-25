@@ -36,11 +36,13 @@ def get_all_users_action():
     return jsonify(users)   
 
 
-
+# for UI
 @user_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
     return render_template('users.html', users=users)
+
+
 
 @user_views.route('/static/users')
 def static_user_page():
