@@ -17,7 +17,7 @@ image_views = Blueprint('image_views', __name__, template_folder='../templates')
 
 #working
 #user can post the same pic as many times as they want
-@image_views.route('/api/images', methods=['POST'])
+@image_views.route('/create/images', methods=['POST'])
 def create_image_action():
     data = request.json
     user = get_user(data['userId'])
