@@ -1,15 +1,15 @@
 from App.database import db
-from datetime import date
+import datetime 
 
 class Distribution(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     numprofiles = db.Column(db.Integer, nullable=False)    
-    timeStamp = db.Column(db.Date , nullable=False)                         
+    timeStamp = db.Column(db.Float , nullable=False)                         
                   
 
     def __init__(self, numprofiles):
         self.numprofiles = numprofiles
-        self.timeStamp = date.today()
+        self.timeStamp = datetime.datetime.timestamp(datetime.datetime.now())
 
 
     def toJSON(self):

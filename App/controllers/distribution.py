@@ -29,4 +29,21 @@ def get_last_distribution_JSON():
     dist = [dis.toJSON() for dis in dist]
     return dist
     
+def get_all_dist_json():
+    distr = Distribution.query.all()
+    if not distr:
+        return []
+    dist = [dist.toJSON() for dist in distr]
+    return dist
+
+
+def update_dist(id, timeStamp):
+    dist = get_dist_by_id(id)
+    if dist:
+        dist.timeStamp = timeStamp
+        db.session.add(dist)
+        db.session.commit()
+        return user
+    return None
+
 

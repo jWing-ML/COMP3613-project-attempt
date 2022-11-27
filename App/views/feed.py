@@ -4,6 +4,7 @@ from datetime import date
 from flask_login import current_user
 
 from App.models import User, Distribution
+import datetime
 
 from App.controllers import (
     create_feed,
@@ -27,10 +28,10 @@ def create_feed_action():
     if(current_user.feed == []):
         feed = create_feed( current_user.id , dist.id )
 
-    if(dist.timeStamp != date.today()):                 #if timestamp expired NOTE try using date.now()
+    if(dist.timeStamp > datetime.datetime.timestamp(datetime.datetime.now())):                 #if timestamp expired NOTE try using date.now()
         feed = create_feed( current_user.id , dist.id )
 
-    feeds = get_feed_by_receiverID(current_user.id)
+    #feeds = get_feed_by_receiverID(current_user.id)
     users = [get_user(feed.senderID) for feed in feeds]
     return render_template('feed.html', users=users, feeds= feeds)
     #return jsonify({"message":"distributed"})
