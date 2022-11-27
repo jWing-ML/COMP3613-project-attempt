@@ -6,13 +6,18 @@ from App.controllers import (
     create_feed,
     get_all_feed,
     create_dist,
-    get_all_users
+    get_all_users,
+    create_user
 )
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
 @index_views.route('/', methods=['GET'])
 def index_page():
+
+    create_user("John", 'pass')
+    create_user("Jane", 'pass')
+    create_user("Mark", 'pass')
 
     users=User.query.all()
     numprofiles=len(users)

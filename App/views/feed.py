@@ -26,7 +26,7 @@ def create_feed_action():
     flash(dist.timeStamp)
     for user in users:
         feed = create_feed( user.id , dist.id )
-
+    
     
     return jsonify({"message":"distributed"})
 
