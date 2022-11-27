@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory
+from flask import Blueprint, render_template, jsonify, request, send_from_directory,flash
 from flask_jwt import jwt_required
 from datetime import date
 from flask_login import current_user
@@ -20,7 +20,7 @@ feed_views = Blueprint('feed_views', __name__, template_folder='../templates')
 
 @feed_views.route('/api/feeds', methods=['GET'])
 def create_feed_action():
-
+    
     users=User.query.all()
     numprofiles=len(users)
     dist = create_dist(numprofiles)
@@ -28,10 +28,30 @@ def create_feed_action():
     if(current_user.feed == []):
         feed = create_feed( current_user.id , dist.id )
 
-    if(dist.timeStamp > datetime.datetime.timestamp(datetime.datetime.now())):                 #if timestamp expired NOTE try using date.now()
-        feed = create_feed( current_user.id , dist.id )
+    h=dist.timeStamp.hour+1
+    if(h>24):
+        h=h%24
+    if(h==24):
+        h=24-1
+    m=dist.timeStamp.minute+5
+    interval = datetime.time(hour=h, minute=m)
 
-    #feeds = get_feed_by_receiverID(current_user.id)
+    expiretime = datetime.datetime.combine(dist.timeStamp, interval)
+
+    flash("timestamp: ")
+    flash(dist.timeStamp)
+    flash("       expire: ")
+    flash(expiretime)
+    flash("        now: ")
+    flash(datetime.datetime.now())
+    
+    if(datetime.datetime.now() > expiretime  ):
+        feed = create_feed( current_user.id , dist.id )
+    #interval = datetime.datetime.now().date()-dist.timeStamp
+    #if(interval>24 ):                 #if timestamp expired NOTE try using date.now()
+        
+
+    feeds = get_feed_by_receiverID(current_user.id)
     users = [get_user(feed.senderID) for feed in feeds]
     return render_template('feed.html', users=users, feeds= feeds)
     #return jsonify({"message":"distributed"})
