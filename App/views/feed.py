@@ -32,7 +32,7 @@ def create_feed_action():
 
 
 
-#for UI
+
 @feed_views.route('/api/feeds', methods=['GET'])
 def view_all_feed():
     
@@ -41,7 +41,16 @@ def view_all_feed():
 
     return render_template('feed.html', users=users, feeds= feeds)
 
+#           =================PROFILE==========================
+
 #for UI
 @feed_views.route('/api/profile', methods=['GET'])
 def view_profile():
     return render_template('profile.html',user=current_user)
+
+
+
+@feed_views.route('/api/profile/<userID>', methods=['GET'])
+def view_profile_from_id(userID):
+    user = get_user(userID)
+    return render_template('profile.html',user=user)
