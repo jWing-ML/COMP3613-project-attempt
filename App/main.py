@@ -23,7 +23,8 @@ from App.views import (
     feed_views,
     login_views,
     signup_views,
-    logout_views
+    logout_views,
+    dist_views
 )
 
 # New views must be imported and added to this list
@@ -37,7 +38,8 @@ views = [
     feed_views,
     login_views,
     signup_views,
-    logout_views
+    logout_views,
+    dist_views
 ]
 
 def add_views(app, views):
