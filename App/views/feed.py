@@ -17,29 +17,41 @@ from App.controllers import (
 feed_views = Blueprint('feed_views', __name__, template_folder='../templates')
 
 
-@feed_views.route('/api/feed', methods=['GET'])
+@feed_views.route('/api/feeds', methods=['GET'])
 def create_feed_action():
 
     users=User.query.all()
     numprofiles=len(users)
     dist = create_dist(numprofiles)
-    flash(dist.timeStamp)
-    for user in users:
-        feed = create_feed( user.id , dist.id )
-    
-    
-    return jsonify({"message":"distributed"})
+
+    if(current_user.feed == []):
+        feed = create_feed( current_user.id , dist.id )
+
+    if(dist.timeStamp != date.today()):                 #if timestamp expired NOTE try using date.now()
+        feed = create_feed( current_user.id , dist.id )
+
+    feeds = get_feed_by_receiverID(current_user.id)
+    users = [get_user(feed.senderID) for feed in feeds]
+    return render_template('feed.html', users=users, feeds= feeds)
+    #return jsonify({"message":"distributed"})
 
 
 
 
-@feed_views.route('/api/feeds', methods=['GET'])
+
+
+@feed_views.route('/api/feed', methods=['GET'])
 def view_all_feed():
     
     feeds = get_feed_by_receiverID(current_user.id)
     users = [get_user(feed.senderID) for feed in feeds]
 
     return render_template('feed.html', users=users, feeds= feeds)
+
+
+
+
+
 
 #           =================PROFILE==========================
 

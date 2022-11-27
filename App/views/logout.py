@@ -11,5 +11,4 @@ logout_views = Blueprint('logout_views', __name__, template_folder='../templates
 def logout():
     logout_user()
     flash('User logged out')
-    feeds = get_all_feed()
-    return render_template('feed.html', feeds=feeds)
+    return render_template('login.html')

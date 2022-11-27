@@ -22,26 +22,6 @@ def index_page():
     create_user("bob", "password")
     create_user("betty", "password")
 
-    users=User.query.all()
-    numprofiles=len(users)
-    distr = create_dist(numprofiles)
-
-    if(distr.id==1):
-        for user in users:
-            feed = create_feed( user.id , distr.id )
     
-        feeds = get_all_feed()
-        users= get_all_users()
-    else:
 
-        dist = get_dist_by_id(distr.id-1)
-        
-        if(dist.timeStamp!=date.today()):
-
-            for user in users:
-                feed = create_feed( user.id , distr.id )
-    
-    feeds = get_all_feed()
-    users= get_all_users()
-
-    return render_template('feed.html', users= users, feeds=feeds)
+    return render_template('login.html')
