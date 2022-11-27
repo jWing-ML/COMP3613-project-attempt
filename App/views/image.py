@@ -36,7 +36,11 @@ def get_images_by_user_action(userId):
 
 
 
-
+@image_views.route('/delete/image/<id>')
+def delete_image_action(id):
+    if get_image(id):
+        delete_image(id)
+    return  render_template('profile.html',user=current_user)
 
 
 @image_views.route('/images', methods=['GET'])
@@ -57,10 +61,3 @@ def get_images_by_id_action():
     image = get_image_json(data['id'])
     return jsonify(image)
 
-@image_views.route('/api/images', methods=['DELETE'])
-def delete_image_action():
-    data = request.json
-    if get_image(data['id']):
-        delete_image(data['id'])
-        return jsonify({"message":"Image Deleted"}) 
-    return jsonify({"message":"Image Not Found"}) 
