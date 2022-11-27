@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory
 from flask_jwt import jwt_required
-
+from flask_login import current_user
 
 from App.controllers import (
     create_image, 
@@ -20,11 +20,10 @@ image_views = Blueprint('image_views', __name__, template_folder='../templates')
 @image_views.route('/create/images', methods=['POST'])
 def create_image_action():
     data = request.json
-    user = get_user(data['userId'])
-    if user:
-        image = create_image(data['userId'], data['url'])
-        return jsonify({"message":"Image created"}) 
-    return jsonify({"message":"User does not exist"}) 
+    user = current_user
+    url = request.form.get('url')
+    image = create_image(user.id, url)
+    return  render_template('profile.html',user=user)
 
 
 @image_views.route('/api/images/user/<userId>', methods=['GET'])
