@@ -18,7 +18,10 @@ index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
 @index_views.route('/', methods=['GET'])
 def index_page():
-  
+    
+    create_user("bob", "password")
+    create_user("betty", "password")
+
     users=User.query.all()
     numprofiles=len(users)
     distr = create_dist(numprofiles)
