@@ -42,20 +42,83 @@
         
           <div class="card-action">
             
-            
+            <div>
               {% if user.id ==current_user.id%}
                 <a class=" light-blue accent-3 btn waves-effect waves-grey button"   href="/delete/image/{{img.id}}">delete</a>
               {% endif%} 
-            
+            </div>
 
             <!--Put rating stars here-->
             
-                <a style=" margin-left: 30%;margin-right: -5px;" href="/create/rank/1/{{img.id}}/{{current_user.id}}"><i class="small material-icons" >star_border</i></a>
-                <a style="margin-right: -5px;" href="/create/rank/2/{{img.id}}/{{current_user.id}}"><i class="small material-icons">star_border</i></a>
-                <a style="margin-right: -5px;" href="/create/rank/3/{{img.id}}/{{current_user.id}}"><i class="small material-icons">star_border</i></a>
-                <a style="margin-right: -5px;" href="/create/rank/4/{{img.id}}/{{current_user.id}}"><i class="small material-icons">star_border</i></a>
-                <a style="margin-right: -5px;" href="/create/rank/5/{{img.id}}/{{current_user.id}}"><i class="small material-icons">star_border</i></a>
-              
+                <div class="rating">
+                    <input name="ratingw" value="1" type="radio" id="star1" />
+                    <label for="star1" class="full"> </label> 
+
+                    <input name="rating" value="2" type="radio" id="star2" />
+                    <label for="star2" class="full">   </label>
+
+                    <input name="rating" value="3" type="radio" id="star3" />
+                    <label for="star3" class="full">   </label>
+
+                    <input name="rating" value="4" type="radio" id="star4" /> 
+                    <label for="star4" class="full">   </label>
+
+                    <input name="rating" value="5" type="radio" id="star5" />
+                    <label for="star5" class="full">   </label>
+                </div>
+                
+                <style>
+                  
+                  .card-action{
+                    height: 50px;
+                  }
+
+                  .rating{
+                    border: none;
+                    float: left;
+                  }
+
+                  .rating > input { 
+                    display: none;
+                  }
+
+                  .rating > label:before{
+                    content: 'star';
+                    font-family: 'Material Icons';
+                    font-size: 2rem;
+                    display: inline-block;
+                    cursor: pointer;
+                    margin-top: -10px;
+                    margin-right: 5px;
+                  }
+
+                  .rating >label{
+                    color: dimgray;
+                    float: right;
+                    cursor: pointer;
+                  }
+
+                  .rating > input:checked ~ label,
+                  .rating:not(:checked) > label:hover,
+                  .rating:not(:checked) > label:hover ~ label{
+                    color:orange;
+                  }
+
+                  .rating > input:checked + label:hover,
+                  .rating > input:checked ~ label:hover,
+                  .rating > label:hover ~ input:checked ~label,
+
+                  .rating > input:checked ~ label:hover ~label{
+                    color: orange;
+                  }
+
+
+                </style>
+                <script>
+                  
+                </script>
+
+                
           </div>
 
         </div>
