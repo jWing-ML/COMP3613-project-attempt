@@ -10,7 +10,7 @@ from App.controllers import (
     create_feed,
     get_all_feed,
     create_dist,
-    get_last_distribution_JSON,
+    get_last_distribution,
     get_feed_by_receiverID,
     get_user
 )
@@ -20,20 +20,24 @@ feed_views = Blueprint('feed_views', __name__, template_folder='../templates')
 
 @feed_views.route('/api/feeds', methods=['GET'])
 def create_feed_action():
+
     
-    users=User.query.all()
-    numprofiles=len(users)
-    dist = create_dist(numprofiles)
 
     if(current_user.feed == []):
+        users=User.query.all()
+        numprofiles=len(users)
+        dist = create_dist(numprofiles)
         feed = create_feed( current_user.id , dist.id )
 
-    h=dist.timeStamp.hour+1
-    if(h>24):
-        h=h%24
-    if(h==24):
-        h=24-1
-    m=dist.timeStamp.minute+5
+    dist = get_last_distribution()
+
+   # h=dist.timeStamp.hour+1
+   # if(h>24):
+   #     h=h%24
+   # if(h==24):
+   #     h=24-1
+    h=dist.timeStamp.hour
+    m=dist.timeStamp.minute+2
     interval = datetime.time(hour=h, minute=m)
 
     expiretime = datetime.datetime.combine(dist.timeStamp, interval)
@@ -46,6 +50,10 @@ def create_feed_action():
     flash(datetime.datetime.now())
     
     if(datetime.datetime.now() > expiretime  ):
+
+        users=User.query.all()
+        numprofiles=len(users)
+        dist = create_dist(numprofiles)
         feed = create_feed( current_user.id , dist.id )
     #interval = datetime.datetime.now().date()-dist.timeStamp
     #if(interval>24 ):                 #if timestamp expired NOTE try using date.now()

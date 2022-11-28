@@ -18,16 +18,12 @@ def distribute():
 def get_dist_by_id(distID):
     return  Distribution.query.get(distID)
 
-def get_last_distribution_JSON():
+def get_last_distribution():
     d=Distribution.query.all() 
     num=0
     for i in d:
         num = num+1
-    dist = Distribution.query.filter_by(id=num)
-    if not dist:
-        return []
-    dist = [dis.toJSON() for dis in dist]
-    return dist
+    return Distribution.query.get(num)
     
 def get_all_dist_json():
     distr = Distribution.query.all()

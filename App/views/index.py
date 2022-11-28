@@ -9,7 +9,6 @@ from App.controllers import (
     get_all_feed,
     create_dist,
     get_all_users,
-    get_last_distribution_JSON,
     create_user,
     get_dist_by_id
 )
