@@ -20,6 +20,26 @@ from App.controllers import (
 ranking_views = Blueprint('ranking_views', __name__, template_folder='../templates')
 
 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+@ranking_views.route('/create/rank/<score>/<imgID>/<creator>', methods=['POST'])
+def create_ranking_action(score, imgID, creator):
+
+    img= get_image(imgID)
+    if get_user(creator) and img:
+
+        lock = get_ranking_by_actors(creator, img.id)           #check if the user already rank the img
+        if lock:
+            flash("user already rank image")
+        else:
+            ranking = create_ranking(creator, img.id, score)
+        flash("created sucessfully")
+        return render_template('profile.html',user=creator)
+
+    return flash("user not found")
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 @ranking_views.route('/api/rankings', methods=['POST'])
 def create_ranking_action():
     data = request.json
