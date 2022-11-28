@@ -43,6 +43,14 @@ def create_ranking_action_ui(score, imgID, creator):
 
     return flash("user not found")
 
+
+
+@ranking_views.route('/api/rankings', methods=['GET'])
+def get_all_rankings_action():
+    rankings = get_all_rankings_json()
+    return jsonify(rankings)
+
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 @ranking_views.route('/api/rankings', methods=['POST'])
@@ -61,10 +69,7 @@ def create_ranking_action():
         return jsonify({"message":"User cannot rank self"})
     return jsonify({"message":"User not found"}) 
 
-@ranking_views.route('/api/rankings', methods=['GET'])
-def get_all_rankings_action():
-    rankings = get_all_rankings_json()
-    return jsonify(rankings)
+
 
 @ranking_views.route('/api/rankings/<imgId>', methods=['GET'])
 def get_rankings_by_image_action(imgId):
