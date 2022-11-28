@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory
+from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash
 from flask_jwt import jwt_required
 
 
@@ -14,7 +14,9 @@ from App.controllers import (
     update_ranking,
     #delete_ranking,
     get_user,
-    get_image
+    get_image,
+    get_user,
+    get_feed_by_receiverID
 )
 
 ranking_views = Blueprint('ranking_views', __name__, template_folder='../templates')
@@ -22,8 +24,8 @@ ranking_views = Blueprint('ranking_views', __name__, template_folder='../templat
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-@ranking_views.route('/create/rank/<score>/<imgID>/<creator>', methods=['POST'])
-def create_ranking_action(score, imgID, creator):
+@ranking_views.route('/create/rank/<score>/<imgID>/<creator>', methods=['GET'])
+def create_ranking_action_ui(score, imgID, creator):
 
     img= get_image(imgID)
     if get_user(creator) and img:
@@ -33,8 +35,11 @@ def create_ranking_action(score, imgID, creator):
             flash("user already rank image")
         else:
             ranking = create_ranking(creator, img.id, score)
-        flash("created sucessfully")
-        return render_template('profile.html',user=creator)
+            flash("created sucessfully")
+
+        user=get_user(img.userId)
+
+        return render_template('profile.html', user=user)
 
     return flash("user not found")
 
