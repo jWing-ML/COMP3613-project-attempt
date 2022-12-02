@@ -58,6 +58,9 @@ def create_feed_action():
         dist = get_dist_by_id(feed.distID)
         h=dist.timeStamp.hour
         m=dist.timeStamp.minute+2
+        if m>59:
+            m= m%59
+            h=h+1
         interval = datetime.time(hour=h, minute=m)
         expiretime = datetime.datetime.combine(dist.timeStamp, interval)
 
