@@ -5,86 +5,62 @@
 {{ super() }}
 
 {% block content %}
+  {% if user %}
+    <div class="column is-4 is-offset-4">
+      <h1 class="title">{{ user.username }}</h1>
+        {% if user.id ==current_user.id%}
+          <div class="box">
+              <form method="POST" action="/newimage">
 
-
-{% if user %}
-<div class="column is-4 is-offset-4">
-  <h1 class="title">{{ user.username }}</h1>
-    {% if user.id ==current_user.id%}
-      <div class="box">
-          <form method="POST" action="/newimage">
-
-              <div class="field">
-                  <div class="control">
-                      <input class="input is-large" type="text" name="url" placeholder="url" autofocus="">
+                  <div class="field">
+                      <div class="control">
+                          <input class="input is-large" type="text" name="url" placeholder="url" autofocus="">
+                      </div>
                   </div>
-              </div>
 
-              <div  class = "input-field s" style="margin-left: 10px; text-decoration-color: white;">
-                <button class=" light-blue accent-3 btn waves-effect waves-grey button">   <a style="color: white;" >Post image </a> </button>
-              </div>
+                  <div  class = "input-field s" style="margin-left: 10px; text-decoration-color: white;">
+                    <button class=" light-blue accent-3 btn waves-effect waves-grey button">   <a style="color: white;" >Post image </a> </button>
+                  </div>
 
-          </form>
-      </div>
-    {% endif%}
-</div>
-
-  {% for img in user.images%}
-
-    <div class="row">
-      <div class="col s12 m4">
-        <div class="card">
-
-          <div class="card-image">
-            <img src="{{img.url}}">
+              </form>
           </div>
-          
-        
-          <div class="card-action">
-            
-            <div>
-              {% if user.id ==current_user.id%}
-                <a class=" light-blue accent-3 btn waves-effect waves-grey button"   href="/delete/image/{{img.id}}">delete</a>
-              {% endif%} 
-            </div>
-
-            <!--Put rating stars here-->
-            
-                <p class="ranking" >
-                    
-                    <a class="s5" href="/create/rank/5/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
-                    <a class="s4" href="/create/rank/4/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
-                    <a class="s3" href="/create/rank/3/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
-                    <a class="s2" href="/create/rank/2/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
-                    <a class="s1" href="/create/rank/1/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
-
-                <p>
-
-                <style>
-
-                  .ranking  .material-icons{
-                    font-size: 2em;
-                    color: grey;
-                    float: right;
-                    cursor: pointer;
-                  }
-
-                  .material-icons:hover{
-                    color: gold;
-                  }
-
-                </style>
-                 
-
-                
-          </div>
-
-        </div>
-
-      </div>
+        {% endif%}
     </div>
-  {% endfor%}
-
-{% endif%}
-
+    {% for img in user.images%}
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="{{img.url}}">
+            </div>
+            <div class="card-action">
+              <div>
+                {% if user.id == current_user.id%}
+                  <a class=" light-blue accent-3 btn waves-effect waves-grey button"   href="/delete/image/{{img.id}}">delete</a>
+                {% endif%} 
+              </div>
+              <p class="ranking" >
+                  <a class="s5" href="/create/rank/5/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
+                  <a class="s4" href="/create/rank/4/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
+                  <a class="s3" href="/create/rank/3/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
+                  <a class="s2" href="/create/rank/2/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
+                  <a class="s1" href="/create/rank/1/{{img.id}}/{{current_user.id}}"><i class="material-icons">star</i></a>
+              <p>
+              <style>
+                .ranking  .material-icons{
+                  font-size: 2em;
+                  color: grey;
+                  float: right;
+                  cursor: pointer;
+                }
+                .material-icons:hover{
+                  color: gold;
+                }
+              </style>    
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
 {% endblock %}

@@ -12,7 +12,8 @@ from App.controllers import (
     create_dist,
     get_last_distribution,
     get_feed_by_receiverID,
-    get_user
+    get_user,
+    get_dist_by_id
 )
 
 feed_views = Blueprint('feed_views', __name__, template_folder='../templates')
@@ -20,8 +21,6 @@ feed_views = Blueprint('feed_views', __name__, template_folder='../templates')
 
 @feed_views.route('/api/feeds', methods=['GET'])
 def create_feed_action():
-
-    
 
     if(current_user.feed == []):
         users=User.query.all()
@@ -31,11 +30,6 @@ def create_feed_action():
 
     dist = get_last_distribution()
 
-   # h=dist.timeStamp.hour+1
-   # if(h>24):
-   #     h=h%24
-   # if(h==24):
-   #     h=24-1
     h=dist.timeStamp.hour
     m=dist.timeStamp.minute+2
     interval = datetime.time(hour=h, minute=m)
@@ -49,20 +43,31 @@ def create_feed_action():
     flash("        now: ")
     flash(datetime.datetime.now())
     
-    if(datetime.datetime.now() > expiretime  ):
-
+    if(datetime.datetime.now() > expiretime  ):     
         users=User.query.all()
         numprofiles=len(users)
         dist = create_dist(numprofiles)
         feed = create_feed( current_user.id , dist.id )
-    #interval = datetime.datetime.now().date()-dist.timeStamp
-    #if(interval>24 ):                 #if timestamp expired NOTE try using date.now()
         
 
     feeds = get_feed_by_receiverID(current_user.id)
-    users = [get_user(feed.senderID) for feed in feeds]
-    return render_template('feed.html', users=users, feeds= feeds)
-    #return jsonify({"message":"distributed"})
+
+    for feed in feeds:
+        dist = get_dist_by_id(feed.distID)
+        h=dist.timeStamp.hour
+        m=dist.timeStamp.minute+2
+        interval = datetime.time(hour=h, minute=m)
+        expiretime = datetime.datetime.combine(dist.timeStamp, interval)
+
+        if (datetime.datetime.now() < expiretime):
+            user=get_user(feed.senderID)
+            flash("user: ")
+            flash(user)
+            return render_template('feed.html', user=user, feeds= feeds)
+    #users = [get_user(feed.senderID) for feed in feeds]
+    
+            
+
 
 
 

@@ -18,8 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
-
+          {% if user %}
             <div class="row">
               <div class="col s12 m7">
                 <div class="card">
@@ -29,16 +28,32 @@
                   <div class="card-content">
                     <p>User id: {{user.id}}</p>
                     <p>username: {{user.username}}</p>
-                    
-                    
                   </div>
                   <div class="card-action">
                     <a href="/api/profile/{{user.id}}">View Profile</a>
+                    <p class="ranking" >
+                      <a class="s5" href=""><i class="material-icons">star</i></a>
+                      <a class="s4" href=""><i class="material-icons">star</i></a>
+                      <a class="s3" href=""><i class="material-icons">star</i></a>
+                      <a class="s2" href=""><i class="material-icons">star</i></a>
+                      <a class="s1" href=""><i class="material-icons">star</i></a>
+                  <p>
+                  <style>
+                    .ranking  .material-icons{
+                      font-size: em;
+                      color: grey;
+                      float: right;
+                      cursor: pointer;
+                    }
+                    .material-icons:hover{
+                      color: gold;
+                    }
+                  </style> 
                   </div>
                 </div>
               </div>
             </div>
-          {% endfor %}
+          {% endif %}
 
             {% for feed in feeds %}
             <tr>
