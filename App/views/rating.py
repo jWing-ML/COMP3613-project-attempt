@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory
+from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash
 from flask_jwt import jwt_required
 
 
@@ -12,7 +12,9 @@ from App.controllers import (
     get_rating_by_actors,
     update_rating,
     get_user,
-    get_calculated_rating
+    get_calculated_rating,
+    get_last_distribution,
+    get_feed_by_distID
 )
 
 rating_views = Blueprint('rating_views', __name__, template_folder='../templates')
@@ -20,21 +22,29 @@ rating_views = Blueprint('rating_views', __name__, template_folder='../templates
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-@rating_views.route('/api/ratings/new', methods=['POST'])
-def create_rating_action_UI():
+@rating_views.route('/create/rating/<creatorID>/<targetID>/<score>', methods=['GET'])
+def create_rating_action_ui(creatorID, targetID, score):
 
-    data = request.json
-    if get_user(data['creatorId']) and get_user(data['targetId']):
-        if data['creatorId'] != data['targetId']:
-            
-            prev = get_rating_by_actors(data['creatorId'], data['targetId'])
-            if prev:
-                return jsonify({"message":"Current user already rated this user"}) 
-            rating = create_rating(data['creatorId'], data['targetId'], data['score'])
-            return jsonify({"message":"Rating created"}) 
+    creator = get_user(creatorID)
+    target = get_user(targetID)
 
-        return jsonify({"message":"User cannot rate self"})
-    return jsonify({"message":"User not found"}) 
+    if creator != target:           #if creator not rating own profile
+        prev_rating = get_rating_by_actors(creator.id, target.id)
+        if prev_rating:     #if creator already rated that profile
+            flash("User already rated the profile.")
+        else:
+            new_rating = create_rating(creator.id, target.id, score)
+            flash("profile rating created.")
+    else:
+        flash("cannot rate your own profile")
+    #load page
+    dist = get_last_distribution()
+    feed = get_feed_by_distID(dist.id)
+    user=get_user(targetID)
+    return render_template('feed.html', user=user, feeds= feed)
+    
+
+
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

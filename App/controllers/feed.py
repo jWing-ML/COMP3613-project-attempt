@@ -27,5 +27,8 @@ def get_all_feed():
 def get_feed_by_receiverID(recvID):
     feed = Feed.query.filter_by(receiverID=recvID)
     return feed
-    
+
+def get_feed_by_distID(distID):
+    feed = Feed.query.filter_by(distID=distID)
+    return feed
 

@@ -13,10 +13,19 @@ from App.controllers import (
     login_user,
     logout_user,
     get_level,
-    authenticate
+    authenticate,
+    get_top_profiles
 )
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
+
+
+@user_views.route('/top/profiles', methods=['GET'])
+def get_top_profiles_action_ui():
+    users = get_top_profiles()
+    return render_template("topProfile.html", users =users)
+
+
 
 #working
 @user_views.route('/api/create/users', methods=['POST'])

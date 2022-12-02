@@ -37,14 +37,10 @@
               {% if current_user.is_authenticated %}
               <li><a href="/view/rankings">image rankings</a></li>
               {% endif %}
-  
-              <!--{% if not current_user.is_authenticated %}
-              <li><a href="/login">Login</a></li>
+
+              {% if current_user.is_authenticated %}
+              <li><a href="/top/profiles">Top profiles</a></li>
               {% endif %}
-              
-              {% if not current_user.is_authenticated %}
-              <li><a href="/signup">SignUp</a></li>
-              {% endif %}-->
   
               {% if current_user.is_authenticated %}
               <li><a href="/logout">Logout</a></li>

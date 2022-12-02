@@ -1,6 +1,8 @@
 from App.models import Rating, User
 from App.database import db
 
+
+
 def create_rating(creatorId, targetId, score):
     newRating = Rating(creatorId=creatorId, targetId=targetId, score=score)
     db.session.add(newRating)

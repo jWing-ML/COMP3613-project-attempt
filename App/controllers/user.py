@@ -41,3 +41,20 @@ def delete_user(id):
         db.session.delete(user)
         return db.session.commit()
     return None
+
+
+
+def get_top_profiles():
+    users = get_all_users()
+    first = get_user(1)
+    for user in users:
+        total=0 
+        total2=0
+        for rating in user.ratings:
+            total = total + rating.score
+        for rating in first.ratings:
+            total2 = total2 + ratings
+        if total > total2:
+            first = user
+        
+    return first

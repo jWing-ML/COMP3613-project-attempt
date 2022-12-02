@@ -27,6 +27,8 @@ def create_feed_action():
         numprofiles=len(users)
         dist = create_dist(numprofiles)
         feed = create_feed( current_user.id , dist.id )
+        #test to see if multiple feeds works
+        #feed = create_feed( current_user.id , dist.id )
 
     dist = get_last_distribution()
 
