@@ -36,12 +36,12 @@ def create_feed_action():
 
     expiretime = datetime.datetime.combine(dist.timeStamp, interval)
 
-    flash("timestamp: ")
-    flash(dist.timeStamp)
-    flash("       expire: ")
+    #flash("timestamp: ")
+    #flash(dist.timeStamp)
+    flash("Feed will expire: ")
     flash(expiretime)
-    flash("        now: ")
-    flash(datetime.datetime.now())
+    #flash("        now: ")
+    #flash(datetime.datetime.now())
     
     if(datetime.datetime.now() > expiretime  ):     
         users=User.query.all()
@@ -61,8 +61,8 @@ def create_feed_action():
 
         if (datetime.datetime.now() < expiretime):
             user=get_user(feed.senderID)
-            flash("user: ")
-            flash(user)
+            #flash("user: ")
+            #flash(user)
             return render_template('feed.html', user=user, feeds= feeds)
     #users = [get_user(feed.senderID) for feed in feeds]
     

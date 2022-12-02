@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash
 from flask_jwt import jwt_required
+from flask_login import current_user
 
 
 from App.controllers import (
@@ -43,6 +44,15 @@ def create_ranking_action_ui(score, imgID, creator):
 
     return flash("user not found")
 
+
+@ranking_views.route('/view/rankings', methods=['GET'])
+def get_all_rankings_action_ui():
+    rankings = get_rankings_by_creator(current_user.id)
+    if rankings:
+        return render_template('rankings.html', rankings=rankings)
+    else:
+        flash("You have not ranked any images")
+        return render_template('profile.html', user=current_user)
 
 
 @ranking_views.route('/api/rankings', methods=['GET'])

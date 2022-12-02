@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}App Users{% endblock %}
+{% block page %}App Users{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+    <div class="row">
+        
+    </div>
+    <div class="row">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Creator ID</th><th>Image ID</th><th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rank in rankings %}
+            <tr>
+                <td>{{rank.id}}</td>
+                <td>{{rank.creatorId}}</td>
+                <td>{{rank.imageId}}</td>
+                <td>{{rank.score}}</td>
+            </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+{% endblock %}
